@@ -11,7 +11,7 @@ from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
-from . import db
+from . import db, timeline
 from .playbooks import REASONS
 
 app = FastAPI(title="RevenueIQ", version="1.0")
@@ -96,11 +96,35 @@ def _insights():
     return insights
 
 
+def keep_dates_current():
+    """Shift demo data to today's date (skipped while a job is rewriting the data)."""
+    if JOB["running"]:
+        return 0
+    try:
+        moved = timeline.roll_forward()
+        if moved:
+            print(f"Demo data moved forward {moved} day(s) to today.", flush=True)
+        return moved
+    except Exception:  # never break a request because of this
+        traceback.print_exc()
+        return 0
+
+
+def _date_watcher():
+    while True:
+        threading.Event().wait(900)  # every 15 minutes
+        keep_dates_current()
+
+
 @app.on_event("startup")
 def first_run_setup():
-    """On a fresh install, build demo data in the background so the UI opens instantly."""
+    """On a fresh install, build demo data in the background so the UI opens instantly.
+    Otherwise bring the existing demo data up to today's date."""
     if not db.is_ready():
         start_job("setup", lambda log: _pipeline().run_all(log=log))
+    else:
+        keep_dates_current()
+    threading.Thread(target=_date_watcher, daemon=True).start()
 
 
 @app.post("/api/model/retrain")
@@ -121,6 +145,7 @@ def reset():
 # ------------------------------------------------------------------ meta / team
 @app.get("/api/meta")
 def meta():
+    keep_dates_current()
     c = conn()
     try:
         run = db.row(c, "SELECT version, algorithm, created_at FROM model_runs WHERE is_active=1")

@@ -28,6 +28,9 @@ Every later start takes about **1.5 seconds**. The package environment is shared
 the PC, so unzipping a new version does not reinstall anything (packages are only reinstalled if
 `requirements.txt` changes). Keep the black window open while you use the app. Close it to stop.
 
+- **Dates stay current automatically.** The demo data is built relative to the day it was created; whenever
+  the app starts, a page loads, and every 15 minutes, all stored dates (history, renewals, due dates, cards,
+  notes, signals) shift forward to today, so nothing looks stale or wrongly overdue.
 - **`reset.bat`** deletes all data. The next `run.bat` builds fresh demo data.
 - To remove the shared package environment completely, delete the folder `%LOCALAPPDATA%\RevenueIQ`
   (run.bat recreates it when needed, and repairs it automatically if a package goes missing).
