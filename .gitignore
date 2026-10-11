@@ -1,0 +1,7 @@
+# Local environment and generated data (rebuilt automatically on first run)
+.venv/
+data/
+__pycache__/
+*.pyc
+.claude/
+*.log

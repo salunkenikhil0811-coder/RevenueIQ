@@ -1,0 +1,14 @@
+# Render blueprint: one free web service. Demo data and the churn model are
+# built in the background on first start (the UI shows a setup screen).
+services:
+  - type: web
+    name: revenueiq
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn backend.app:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/meta
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.7
