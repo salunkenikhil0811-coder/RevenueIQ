@@ -1,5 +1,7 @@
 # RevenueIQ - Revenue Intelligence Platform
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/salunkenikhil0811-coder/RevenueIQ)
+
 RevenueIQ predicts which SaaS customers are about to cancel their subscription, ranks them by how much revenue
 is at stake, explains why, recommends a retention action and tracks that action on a kanban board until it is done.
 Recorded outcomes, plus a 10% control group, show whether the retention work actually saves revenue.
