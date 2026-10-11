@@ -1,6 +1,7 @@
 # RevenueIQ - Revenue Intelligence Platform
 
-**Live demo: https://revenueiq-2hdg.onrender.com** (free hosting: the first visit after a quiet period takes about a minute to wake up)
+**Live demo: https://revenueiq-2hdg.onrender.com** (free hosting: the first visit after a quiet period takes about a minute to wake up).
+Every push to `main` deploys to the live site automatically.
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/salunkenikhil0811-coder/RevenueIQ)
 
