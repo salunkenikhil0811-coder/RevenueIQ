@@ -1,0 +1,23 @@
+# Keeps the free Render instance awake by visiting it every 10 minutes
+# (Render free services sleep after 15 minutes without traffic).
+name: Keep live demo awake
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Ping RevenueIQ
+        run: |
+          for i in 1 2 3; do
+            code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 90 https://revenueiq-2hdg.onrender.com/api/meta || true)
+            echo "Attempt $i: HTTP $code"
+            if [ "$code" = "200" ]; then exit 0; fi
+            sleep 20
+          done
+          echo "Site did not answer with 200 (it may still be waking up)."
